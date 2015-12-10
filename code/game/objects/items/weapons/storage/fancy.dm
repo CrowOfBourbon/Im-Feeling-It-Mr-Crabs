@@ -254,7 +254,7 @@
 	desc = "Is your weight slowing you down? Having trouble running away from gravitational singularities? Can't stop stuffing your mouth? Smoke Shady Jim's Super Slims and watch all that fat burn away. Guaranteed results!"
 	icon_state = "shadyjimpacket"
 	item_state = "cigpacket"
-	default_reagents = list("nicotine" = 20, "lipolicide" = 10)
+	default_reagents = list("nicotine" = 20)
 
 /obj/item/weapon/storage/fancy/cigarettes/kanser_sticks
 	name ="\improper Kanser Sticks"
