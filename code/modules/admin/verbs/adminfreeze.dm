@@ -15,18 +15,17 @@
 			alert("The AI can't be frozen.  You'll have to talk to them.", null, null, null, null, null)
 			return
 		if (!M.paralysis)
-			var/adminoverlay = new/obj/effect/overlay/adminfreeze
-			spawn(50)
-				M.overlays += adminoverlay
 			M << "<b><font color= red>You have been frozen by <a href='?priv_msg=\ref[usr.client]'>[key]</a></b></font>"
 			M.visible_message("<span class = 'danger'>[M] has been frozen by an Admin!</span>")
 			M.Paralyse(5000000000)
 			log_admin("\red [key_name_admin(usr)] has frozen [key_name(M)].", 1)
 			message_admins("\blue [key_name_admin(usr)] froze [key_name_admin(M)].", 1)
 			return
-		else if (M.paralysis)
 			var/adminoverlay = new/obj/effect/overlay/adminfreeze
-			M.overlays -= adminoverlay
+			spawn(50)
+				M.overlays += adminoverlay
+			return
+		else if (M.paralysis)
 			M << "<b> <font color= red>You have been unfrozen by <a href='?priv_msg=\ref[usr.client]'>[key]</a></b></font>"
 			log_admin("\blue [key_name(usr)] has unfrozen [key_name(M)].")
 			message_admins("\blue [key_name_admin(usr)] has unfrozen [key_name_admin(M)].")
@@ -37,6 +36,9 @@
 			M.stat = 0
 			M.SetStunned(0) //should fix the issue with slowdown
 			M.SetWeakened(0) //should fix the issue with slowdown
+			return
+			var/adminoverlay = new/obj/effect/overlay/adminfreeze
+			M.overlays -= adminoverlay
 			return
 		return
 
