@@ -126,6 +126,7 @@
 ////////////
 //CIG PACK//
 ////////////
+
 /obj/item/weapon/storage/fancy/cigarettes
 	name = "cigarette packet"
 	desc = "The most popular brand of Space Cigarettes, sponsors of the Space Olympics."
@@ -136,36 +137,53 @@
 	throwforce = 2
 	slot_flags = SLOT_BELT
 	storage_slots = 6
-	can_hold = list(/obj/item/clothing/mask/smokable/cigarette)
+	can_hold = list("/obj/item/clothing/mask/cigarette")
+	cant_hold = list("/obj/item/clothing/mask/cigarette/cigar",
+		"/obj/item/clothing/mask/cigarette/pipe")
 	icon_type = "cigarette"
+	var/list/unlaced_cigarettes = list() // Cigarettes that haven't received reagents yet
+	var/default_reagents = list("nicotine" = 15) // List of reagents to pre-generate for each cigarette
 
 /obj/item/weapon/storage/fancy/cigarettes/New()
 	..()
 	flags |= NOREACT
+	create_reagents(30 * storage_slots)//so people can inject cigarettes without opening a packet, now with being able to inject the whole one
 	for(var/i = 1 to storage_slots)
-		new /obj/item/clothing/mask/smokable/cigarette(src)
-	create_reagents(15 * storage_slots)//so people can inject cigarettes without opening a packet, now with being able to inject the whole one
+		var/obj/item/clothing/mask/cigarette/C = new /obj/item/clothing/mask/cigarette(src)
+		unlaced_cigarettes += C
+		for(var/R in default_reagents)
+			reagents.add_reagent(R, default_reagents[R])
+
+
+/obj/item/weapon/storage/fancy/cigarettes/Destroy()
+	qdel(reagents)
+	return ..()
+
 
 /obj/item/weapon/storage/fancy/cigarettes/update_icon()
 	icon_state = "[initial(icon_state)][contents.len]"
+	desc = "There are [contents.len] cig\s left!"
 	return
 
+/obj/item/weapon/storage/fancy/cigarettes/proc/lace_cigarette(var/obj/item/clothing/mask/cigarette/C as obj)
+	if(istype(C) && (C in unlaced_cigarettes)) // Only transfer reagents to each cigarette once
+		reagents.trans_to(C, (reagents.total_volume/unlaced_cigarettes.len))
+		unlaced_cigarettes -= C
+		reagents.maximum_volume = 30 * unlaced_cigarettes.len
+
 /obj/item/weapon/storage/fancy/cigarettes/remove_from_storage(obj/item/W as obj, atom/new_location)
-		var/obj/item/clothing/mask/smokable/cigarette/C = W
-		if(!istype(C)) return // what
-		reagents.trans_to_obj(C, (reagents.total_volume/contents.len))
-		..()
+	lace_cigarette(W)
+	..()
 
 /obj/item/weapon/storage/fancy/cigarettes/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 	if(!istype(M, /mob))
 		return
 
-	if(M == user && user.zone_sel.selecting == "mouth" && contents.len > 0 && !user.wear_mask)
-		var/obj/item/clothing/mask/smokable/cigarette/W = new /obj/item/clothing/mask/smokable/cigarette(user)
-		reagents.trans_to_obj(W, (reagents.total_volume/contents.len))
-		user.equip_to_slot_if_possible(W, slot_wear_mask)
-		reagents.maximum_volume = 15 * contents.len
-		contents.len--
+	if(istype(M) && M == user && user.zone_sel.selecting == "mouth" && contents.len > 0 && !user.wear_mask)
+		var/obj/item/clothing/mask/cigarette/C = contents[contents.len]
+		if(!istype(C)) return
+		lace_cigarette(C)
+		user.equip_to_slot_if_possible(C, slot_wear_mask)
 		user << "<span class='notice'>You take a cigarette out of the pack.</span>"
 		update_icon()
 	else
@@ -175,10 +193,103 @@
 	name = "\improper DromedaryCo packet"
 	desc = "A packet of six imported DromedaryCo cancer sticks. A label on the packaging reads, \"Wouldn't a slow death make a change?\""
 	icon_state = "Dpacket"
-	item_state = "Dpacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 15)
+
+/obj/item/weapon/storage/fancy/cigarettes/syndicate
+	name = "\improper Syndicate Cigarettes"
+	desc = "A packet of six evil-looking cigarettes, A label on the packaging reads, \"Donk Co\""
+	icon_state = "robustpacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 25, "toxin" = 2)
+
+/obj/item/weapon/storage/fancy/cigarettes/syndicate/New()
+	..()
+	var/new_name = pick("evil", "suspicious", "ominous", "donk-flavored", "robust", "sneaky")
+	name = "[new_name] cigarette packet"
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate
+	name = "cigarette packet"
+	desc = "An obscure brand of cigarettes."
+	icon_state = "syndiepacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 15, "inaprovaline" = 10)
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift
+	name = "\improper Uplift Smooth packet"
+	desc = "Your favorite brand, now menthol flavored."
+	icon_state = "upliftpacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 15, "inaprovaline" = 5)
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_robust
+	name = "\improper Robust packet"
+	desc = "Smoked by the robust."
+	icon_state = "robustpacket"
+	item_state = "cigpacket"
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold
+	name = "\improper Robust Gold packet"
+	desc = "Smoked by the truly robust."
+	icon_state = "robustgpacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 15, "gold" = 5)
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_carp
+	name = "\improper Carp Classic packet"
+	desc = "Since 2313."
+	icon_state = "carppacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 25)
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_midori
+	name = "\improper Midori Tabako packet"
+	desc = "You can't understand the runes, but the packet smells funny."
+	icon_state = "midoripacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 20)
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
+	name ="\improper Shady Jim's Super Slims"
+	desc = "Is your weight slowing you down? Having trouble running away from gravitational singularities? Can't stop stuffing your mouth? Smoke Shady Jim's Super Slims and watch all that fat burn away. Guaranteed results!"
+	icon_state = "shadyjimpacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 20, "lipolicide" = 10)
+
+/obj/item/weapon/storage/fancy/cigarettes/kanser_sticks
+	name ="\improper Kanser Sticks"
+	desc = "Kanser Sticks provide a smooth Kanser taste! Smoke your life away today!"
+	icon_state = "kancersticks"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 30)
+
+/obj/item/weapon/storage/fancy/cigarettes/holy_smokes
+	name ="\improper Holy Smokes"
+	desc = "Holy smokes! Guaranteed 100% heresy free! Say goodbye to heretical lung cancer!"
+	icon_state = "holypacket"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 25, "holywater" = 5)
+
+/obj/item/weapon/storage/fancy/cigarettes/lho_sticks
+	name ="\improper Lho Sticks"
+	desc = "Smooth Lho taste! The best in premium space cigarettes since 2401! Now with 25% more nicotine!"
+	icon_state = "lhosticks"
+	item_state = "cigpacket"
+	default_reagents = list("nicotine" = 25, "hyperzine" = 5)
+
+/obj/item/weapon/storage/fancy/cigarettes/admum_stikz
+	name ="\improper AdmunStikz"
+	desc = "'s Little sticks of fun! I wouldnt trust these at all."
+	icon_state = "admun"
+	item_state = "cigpacket"
+	default_reagents = list("capsaicin" = 10, "condensedcapsaicin" = 0.5)
+
+/////////
+//Cigar//
+////////
 
 /obj/item/weapon/storage/fancy/cigar
-	name = "cigar case"
+	name = "Premium Cigar Case"
 	desc = "A case for holding your cigars when you are not smoking them."
 	icon_state = "cigarcase"
 	item_state = "cigarcase"
@@ -189,6 +300,7 @@
 	storage_slots = 7
 	can_hold = list(/obj/item/clothing/mask/smokable/cigarette/cigar)
 	icon_type = "cigar"
+	var/default_reagents = list("nicotine" = 25)
 
 /obj/item/weapon/storage/fancy/cigar/New()
 	..()
@@ -197,6 +309,10 @@
 		new /obj/item/clothing/mask/smokable/cigarette/cigar(src)
 	create_reagents(15 * storage_slots)
 
+/obj/item/weapon/storage/fancy/cigar/Del()
+	del(reagents)
+	..()
+
 /obj/item/weapon/storage/fancy/cigar/update_icon()
 	icon_state = "[initial(icon_state)][contents.len]"
 	return
@@ -204,7 +320,7 @@
 /obj/item/weapon/storage/fancy/cigar/remove_from_storage(obj/item/W as obj, atom/new_location)
 		var/obj/item/clothing/mask/smokable/cigarette/cigar/C = W
 		if(!istype(C)) return
-		reagents.trans_to_obj(C, (reagents.total_volume/contents.len))
+		reagents.trans_to(C, (reagents.total_volume/contents.len))
 		..()
 
 /obj/item/weapon/storage/fancy/cigar/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
@@ -213,7 +329,7 @@
 
 	if(M == user && user.zone_sel.selecting == "mouth" && contents.len > 0 && !user.wear_mask)
 		var/obj/item/clothing/mask/smokable/cigarette/cigar/W = new /obj/item/clothing/mask/smokable/cigarette/cigar(user)
-		reagents.trans_to_obj(W, (reagents.total_volume/contents.len))
+		reagents.trans_to(W, (reagents.total_volume/contents.len))
 		user.equip_to_slot_if_possible(W, slot_wear_mask)
 		reagents.maximum_volume = 15 * contents.len
 		contents.len--
@@ -221,6 +337,27 @@
 		update_icon()
 	else
 		..()
+
+/obj/item/weapon/storage/fancy/cigar/cohiba
+	name = "Premium Cohiba Cigar Case"
+	desc = "A case for holding your cigars when you are not smoking them."
+	icon_state = "cigarcase"
+	item_state = "cigarcase"
+	icon = 'icons/obj/cigarettes.dmi'
+	can_hold = list(/obj/item/clothing/mask/cigarette/cigar/cohiba)
+	icon_type = "cigar2off"
+	default_reagents = list("nicotine" = 30)
+
+/obj/item/weapon/storage/fancy/cigar/havana
+	name = "Premium Hohiba Cigar Case"
+	desc = "A case for holding your cigars when you are not smoking them."
+	icon_state = "cigarcase"
+	item_state = "cigarcase"
+	icon = 'icons/obj/cigarettes.dmi'
+	can_hold = list(/obj/item/clothing/mask/cigarette/cigar/havana)
+	icon_type = "cigar2off"
+	default_reagents = list("nicotine" = 30)
+
 
 /*
  * Vial Box
