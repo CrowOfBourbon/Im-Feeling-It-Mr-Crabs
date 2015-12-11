@@ -776,10 +776,15 @@
 	product_ads = "Probably not bad for you!;Don't believe the scientists!;It's good for you!;Don't quit, buy more!;Smoke!;Nicotine heaven.;Best cigarettes since 2150.;Award-winning cigs."
 	vend_delay = 34
 	icon_state = "cigs"
-	products = list(/obj/item/weapon/storage/fancy/cigarettes = 10,/obj/item/weapon/storage/box/matches = 10,/obj/item/weapon/flame/lighter/random = 4)
-	contraband = list(/obj/item/weapon/flame/lighter/zippo = 4)
-	premium = list(/obj/item/weapon/storage/fancy/cigar = 5)
-	prices = list(/obj/item/weapon/storage/fancy/cigarettes = 15,/obj/item/weapon/storage/box/matches = 1,/obj/item/weapon/flame/lighter/random = 2)
+	products = list(/obj/item/weapon/storage/fancy/cigarettes/dromedaryco = 5,/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift = 5,/obj/item/weapon/storage/fancy/cigarettes/kanser_sticks = 5,
+					/obj/item/weapon/storage/fancy/cigarettes/cigpack_robust = 5,/obj/item/weapon/storage/fancy/cigarettes/cigpack_carp = 5,/obj/item/weapon/storage/fancy/cigarettes/holy_smokes = 5,
+					/obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims = 5,/obj/item/weapon/storage/fancy/cigarettes/lho_sticks = 5,/obj/item/weapon/storage/box/matches = 10,/obj/item/weapon/flame/lighter/random = 4)
+	premium = list(/obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold = 5,/obj/item/weapon/storage/fancy/cigar = 5,/obj/item/weapon/storage/fancy/cigar/cohiba = 5,/obj/item/weapon/storage/fancy/cigar/havana = 5,)
+	contraband = list(/obj/item/weapon/flame/lighter/zippo = 4, /obj/item/weapon/storage/fancy/cigarettes/syndicate = 2)
+	prices = list(/obj/item/weapon/storage/fancy/cigarettes/dromedaryco = 10,/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift = 10,/obj/item/weapon/storage/fancy/cigarettes/cigpack_robust = 15,
+					/obj/item/weapon/storage/fancy/cigarettes/cigpack_carp = 10,/obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims = 10,/obj/item/weapon/storage/box/matches = 4,
+					/obj/item/weapon/flame/lighter/random = 4,/obj/item/weapon/flame/lighter/zippo = 10,/obj/item/weapon/storage/fancy/cigarettes/kanser_sticks = 10,/obj/item/weapon/storage/fancy/cigarettes/holy_smokes = 10,
+					/obj/item/weapon/storage/fancy/cigarettes/lho_sticks = 10, /obj/item/weapon/storage/fancy/cigarettes/syndicate = 25)
 
 
 /obj/machinery/vending/medical

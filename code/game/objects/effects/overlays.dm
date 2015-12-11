@@ -52,3 +52,10 @@
 	..()
 	pixel_x += rand(-10, 10)
 	pixel_y += rand(-10, 10)
+
+
+/obj/effect/overlay/adminfreeze
+	name = "wallrot"
+	desc = "The gods have spoken. Back up mear mortal."
+	icon = 'icons/effects/adminfreeze.dmi'
+	layer = 5
