@@ -402,6 +402,23 @@
 	new /obj/item/clothing/gloves/black(src)
 	return
 
+/obj/structure/closet/wardrobe/clowntraitor
+	name = "suspicious wardrobe "
+	icon_state = "syndicate1"
+	icon_closed = "syndicate1"
+	icon_opened = "syndicate1open"
+
+/obj/structure/closet/wardrobe/clowntraitor/New()
+	..()
+	new /obj/item/clothing/mask/gas/clown_hat(src)
+	new /obj/item/clothing/shoes/clown_shoes(src)
+	new /obj/item/clothing/under/rank/clown(src)
+	new /obj/item/device/pda/clown(src)
+	new /obj/item/weapon/stamp/clown(src)
+	new /obj/item/weapon/storage/backpack/clown(src)
+	new /obj/item/toy/figure/clown(src)
+	return
+
 /obj/structure/closet/wardrobe/suit
 	name = "suit locker"
 	icon_state = "mixed"
