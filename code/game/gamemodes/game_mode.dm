@@ -108,7 +108,8 @@ var/global/list/additional_antag_types = list()
 		),
 		"(Pointless) Badassery" = list(
 			new/datum/uplink_item(/obj/item/toy/syndicateballoon, 10, "For showing that You Are The BOSS (Useless Balloon)", "BS"),
-			new/datum/uplink_item(/obj/item/toy/nanotrasenballoon, 10, "For showing that you love NT SOO much (Useless Balloon)", "NT")
+			new/datum/uplink_item(/obj/item/toy/nanotrasenballoon, 10, "For showing that you love NT SOO much (Useless Balloon)", "NT"),
+			new/datum/uplink_item(/obj/structure/closet/wardrobe/clowntraitor, 3, "To show that you are the villian the station needs!", "CLOWN")
 			)
 		)
 

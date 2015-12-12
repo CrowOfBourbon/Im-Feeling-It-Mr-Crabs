@@ -30,7 +30,7 @@
 	poison_type = "oxygen"
 	siemens_coefficient = 0.2
 
-	flags = CAN_JOIN | IS_WHITELISTED | NO_SCAN | HAS_EYE_COLOR
+	flags = CAN_JOIN| IS_WHITELISTED | NO_SCAN | HAS_EYE_COLOR
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"
@@ -57,19 +57,9 @@
 
 /datum/species/vox/equip_survival_gear(var/mob/living/carbon/human/H)
 	H.equip_to_slot_or_del(new /obj/item/clothing/mask/breath(H), slot_wear_mask)
-	if(H.backbag == 1)
-		H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_r_hand)
-		H.internal = H.back
-	else
-		H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
-		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H.back), slot_in_backpack)
-		H.internal = H.r_hand
+	H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
+	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/vox(H), slot_in_backpack)
 	H.internals.icon_state = "internal1"
-		
-
-/datum/species/vox/get_station_variant()
-	return "Vox Pariah"
 
 // Joining as a station vox will give you this template, hence IS_RESTRICTED flag.
 /datum/species/vox/pariah
@@ -82,9 +72,9 @@
 	hazard_low_pressure =  (HAZARD_LOW_PRESSURE-10)
 	total_health = 80
 
-	cold_level_1 = 130
-	cold_level_2 = 100
-	cold_level_3 = 60
+	cold_level_1 = 999
+	cold_level_2 = 999
+	cold_level_3 = 999
 
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws, /datum/unarmed_attack/bite)
 
@@ -102,21 +92,6 @@
 // No combat skills for you.
 /datum/species/vox/pariah/can_shred(var/mob/living/carbon/human/H, var/ignore_intent)
 	return 0
-
-// Pariahs are really gross.
-/datum/species/vox/pariah/handle_environment_special(var/mob/living/carbon/human/H)
-	if(prob(5))
-		var/stink_range = rand(3,5)
-		for(var/mob/living/M in range(H,stink_range))
-			if(M.stat || M == H)
-				continue
-			var/mob/living/carbon/human/target = M
-			if(istype(target))
-				if(target.head && (target.head.flags & HEADCOVERSMOUTH) && (target.head.flags & AIRTIGHT))
-					continue
-				if(target.wear_mask && (target.wear_mask.flags & MASKCOVERSMOUTH) && (target.wear_mask.flags & BLOCK_GAS_SMOKE_EFFECT))
-					continue
-			M << "<span class='danger'>A terrible stench emanates from \the [H].</span>"
 
 /datum/species/vox/pariah/get_bodytype()
 	return "Vox"
