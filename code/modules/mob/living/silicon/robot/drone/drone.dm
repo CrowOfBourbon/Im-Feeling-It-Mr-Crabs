@@ -14,7 +14,8 @@
 	lawupdate = 0
 	density = 1
 	req_access = list(access_engine, access_robotics)
-	integrated_light_power = 3
+	lights_on = 0 // Is our integrated light on?
+	integrated_light_power = 5
 	local_transmit = 1
 
 	mob_bump_flag = SIMPLE_ANIMAL
