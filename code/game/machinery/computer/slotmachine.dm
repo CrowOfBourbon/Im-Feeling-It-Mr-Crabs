@@ -66,6 +66,11 @@
 	..()
 	update_icon()
 
+/obj/machinery/computer/slot_machine/attack_hand(mob/user as mob)
+	if(istype(user, /mob/living/silicon))
+		user << "\red \icon[src] Artificial unit recognized. Access Denied."
+		return
+
 /obj/machinery/computer/slot_machine/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/weapon/coin))
 		var/obj/item/weapon/coin/C = I
@@ -258,23 +263,10 @@
 	return amountthesame
 
 /obj/machinery/computer/slot_machine/proc/give_money(amount)
-	var/amount_to_give = money >= amount ? amount : money
-	var/surplus = amount_to_give - give_coins(amount_to_give)
-	money = max(0, money - amount)
-	balance += surplus
+	spawn_money(amount,src.loc,usr)
 
 /obj/machinery/computer/slot_machine/proc/give_coins(amount)
-	var/cointype = emagged ? /obj/item/weapon/coin/iron : /obj/item/weapon/coin/silver
-
-	if(!emagged)
-		amount = dispense(amount, cointype, null, 0)
-
-	else
-		var/mob/living/target = locate() in range(src, 2)
-
-		amount = dispense(amount, cointype, target, 1)
-
-	return amount
+	spawn_money(amount,src.loc,usr)
 
 /obj/machinery/computer/slot_machine/proc/dispense(amount = 0, cointype = /obj/item/weapon/coin/silver, mob/living/target, throwit = 0)
 	var/value = coinvalues["[cointype]"]
