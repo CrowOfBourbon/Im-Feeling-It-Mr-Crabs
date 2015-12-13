@@ -15,10 +15,10 @@
 	density = 1
 	use_power = 1
 	idle_power_usage = 50
-	var/money = 3000 //How much money it has CONSUMED
+	var/money = 4716 //How much money it has CONSUMED
 	var/plays = 0
 	var/working = 0
-	var/balance = 0 //How much money is in the machine, ready to be CONSUMED.
+	var/balance = 15 //How much money is in the machine, ready to be CONSUMED.
 	var/jackpots = 0
 	var/list/coinvalues = list()
 	var/list/reels = list(list("", "", "") = 0, list("", "", "") = 0, list("", "", "") = 0, list("", "", "") = 0, list("", "", "") = 0)
@@ -66,28 +66,21 @@
 	..()
 	update_icon()
 
+/obj/machinery/computer/slot_machine/attack_hand(mob/user as mob)
+	if(istype(user, /mob/living/silicon))
+		user << "\red \icon[src] Artificial unit recognized. Access Denied."
+		return
+
 /obj/machinery/computer/slot_machine/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/weapon/coin))
 		var/obj/item/weapon/coin/C = I
-		if(prob(2))
-			if(!user.drop_item())
-				return
-			C.loc = loc
-			C.throw_at(user, 3, 10)
-			if(prob(10))
-				balance = max(balance - SPIN_PRICE, 0)
-			user << "<span class='warning'>[src] spits your coin back out!</span>"
-
-		else
-			if(!user.drop_item())
-				return
-			user << "<span class='notice'>You insert a [C.cmineral] coin into [src]'s slot!</span>"
-			balance += C.value
-			qdel(C)
-
+		user.drop_item()
+		user << "<span class='notice'>You insert a [C.cmineral] coin into [src]'s slot!</span>"
+		balance += C.value
+		qdel(C)
 		return
 
-	else if(!balance) //to prevent coins from magically disappearing
+	if(!balance) //to prevent coins from magically disappearing
 		..()
 
 /obj/machinery/computer/slot_machine/emag_act()
@@ -270,23 +263,10 @@
 	return amountthesame
 
 /obj/machinery/computer/slot_machine/proc/give_money(amount)
-	var/amount_to_give = money >= amount ? amount : money
-	var/surplus = amount_to_give - give_coins(amount_to_give)
-	money = max(0, money - amount)
-	balance += surplus
+	spawn_money(amount,src.loc,usr)
 
 /obj/machinery/computer/slot_machine/proc/give_coins(amount)
-	var/cointype = emagged ? /obj/item/weapon/coin/iron : /obj/item/weapon/coin/silver
-
-	if(!emagged)
-		amount = dispense(amount, cointype, null, 0)
-
-	else
-		var/mob/living/target = locate() in range(src, 2)
-
-		amount = dispense(amount, cointype, target, 1)
-
-	return amount
+	spawn_money(amount,src.loc,usr)
 
 /obj/machinery/computer/slot_machine/proc/dispense(amount = 0, cointype = /obj/item/weapon/coin/silver, mob/living/target, throwit = 0)
 	var/value = coinvalues["[cointype]"]

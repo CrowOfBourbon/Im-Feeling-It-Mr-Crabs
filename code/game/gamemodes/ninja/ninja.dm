@@ -1,3 +1,4 @@
+/*
 /datum/game_mode/ninja
 	name = "ninja"
 	round_description = "An agent of the Spider Clan is onboard the station!"
@@ -7,3 +8,4 @@
 	required_enemies = 1
 	end_on_antag_death = 1
 	antag_tags = list(MODE_NINJA)
+*/

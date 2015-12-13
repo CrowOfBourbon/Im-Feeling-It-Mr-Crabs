@@ -33,6 +33,7 @@ log transactions
 	var/editing_security_level = 0
 	var/view_screen = NO_SCREEN
 	var/datum/effect/effect/system/spark_spread/spark_system
+	var/list/coinvalues = list()
 
 /obj/machinery/atm/New()
 	..()
@@ -190,7 +191,7 @@ log transactions
 							dat += "<b>Account balance:</b> $[authenticated_account.money]"
 							dat += "<form name='withdrawal' action='?src=\ref[src]' method='get'>"
 							dat += "<input type='hidden' name='src' value='\ref[src]'>"
-							dat += "<input type='radio' name='choice' value='withdrawal' checked> Cash  <input type='radio' name='choice' value='e_withdrawal'> Chargecard<br>"
+							dat += "<input type='radio' name='choice' value='withdrawal' checked> Cash  <input type='radio' name='choice' value='e_withdrawal'> Chargecard <input type='radio' name='choice' value='coinwithdrawal'> Coin <br>"
 							dat += "<input type='text' name='funds_amount' value='' style='width:200px; background-color:white;'><input type='submit' value='Withdraw'>"
 							dat += "</form>"
 							dat += "<A href='?src=\ref[src];choice=view_screen;view_screen=1'>Change account security level</a><br>"
@@ -352,6 +353,33 @@ log transactions
 						authenticated_account.transaction_log.Add(T)
 					else
 						usr << "\icon[src]<span class='warning'>You don't have enough funds to do that!</span>"
+			if("coinwithdrawal")
+				var/amount = max(text2num(href_list["funds_amount"]),0)
+				if(amount <= 0)
+					alert("That is not a valid amount.")
+				else if(authenticated_account && amount > 0)
+					var/cointype = emagged ? /obj/item/weapon/coin/iron : /obj/item/weapon/coin/silver
+					if(amount >= 80)
+						playsound(src, 'sound/machines/chime.ogg', 50, 1)
+						amount = dispense(amount, cointype, null, 0)
+					if(amount >= 140)
+						playsound(src, 'sound/machines/chime.ogg', 50, 1)
+						amount = dispense(amount, cointype, null, 0)
+
+						//remove the money
+						authenticated_account.money -= amount
+
+						//create an entry in the account transaction log
+						var/datum/transaction/T = new()
+						T.target_name = authenticated_account.owner_name
+						T.purpose = "Coin withdrawal"
+						T.amount = "([amount])"
+						T.source_terminal = machine_id
+						T.date = current_date_string
+						T.time = worldtime2text()
+						authenticated_account.transaction_log.Add(T)
+					else
+						usr << "\icon[src]<span class='warning'>You don't have enough funds to do that!</span>"
 			if("balance_statement")
 				if(authenticated_account)
 					var/obj/item/weapon/paper/R = new(src.loc)
@@ -483,3 +511,17 @@ log transactions
 		human_user.put_in_hands(E)
 	E.worth = sum
 	E.owner_name = authenticated_account.owner_name
+
+/obj/machinery/atm/proc/dispense(amount = 0, cointype = /obj/item/weapon/coin/silver, mob/living/target, throwit = 0)
+	var/value = coinvalues["[cointype]"]
+
+
+	while(amount >= value)
+		var/obj/item/weapon/coin/C = new cointype(loc) //DOUBLE THE PAIN
+		amount -= value
+		if(throwit && target)
+			C.throw_at(target, 3, 10)
+		else
+			random_step(C, 2, 40)
+
+	return amount
