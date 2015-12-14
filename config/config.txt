@@ -23,10 +23,10 @@ JOBS_HAVE_MINIMAL_ACCESS
 ## REQUIRES the database set up to work. Keep it hashed if you don't have a database set up.
 ## NOTE: If you have just set-up the database keep this DISABLED, as player age is determined from the first time they connect to the server with the database up. If you just set it up, it means
 ## you have noone older than 0 days, since noone has been logged yet. Only turn this on once you have had the database up for 30 days.
-#USE_AGE_RESTRICTION_FOR_JOBS
+# USE_AGE_RESTRICTION_FOR_JOBS
 
 ## Unhash this to use recursive explosions, keep it hashed to use circle explosions. Recursive explosions react to walls, airlocks and blast doors, making them look a lot cooler than the boring old circular explosions. They require more CPU and are (as of january 2013) experimental
-#USE_RECURSIVE_EXPLOSIONS
+# USE_RECURSIVE_EXPLOSIONS
 
 ## log OOC channel
 LOG_OOC
@@ -65,7 +65,7 @@ LOG_PDA
 # LOG_RUNTIME
 
 ## log admin warning messages
-##LOG_ADMINWARN  ## Also duplicates a bunch of other messages.
+# LOG_ADMINWARN  ## Also duplicates a bunch of other messages.
 
 ## sql switching
 # SQL_ENABLED
@@ -182,14 +182,14 @@ GUEST_JOBBAN
 GUEST_BAN
 ## Set to jobban everyone who's key is not listed in data/whitelist.txt from Captain, HoS, HoP, CE, RD, CMO, Warden, Security, Detective, and AI positions.
 ## Uncomment to 1 to jobban, leave commented out to allow these positions for everyone (but see GUEST_JOBBAN above and regular jobbans)
-# USEWHITELIST
+#USEWHITELIST
 
 ## set a server location for world reboot. Don't include the byond://, just give the address and port.
 #SERVER server.net:port
 
 ## set a server URL for the IRC bot to use; like SERVER, don't include the byond://
 ## Unlike SERVER, this one shouldn't break auto-reconnect
-# SERVERURL server.net:port
+#SERVERURL server.net:port
 
 ## forum address
 FORUMURL http://hollowstoness13.boards.net/
@@ -211,11 +211,11 @@ BANAPPEALS http://hollowstoness13.boards.net/board/9/ooc-complaints
 # LOAD_JOBS_FROM_TXT
 
 ##Remove the # mark infront of this to forbid admins from posssessing the singularity.
-#FORBID_SINGULO_POSSESSION
+# FORBID_SINGULO_POSSESSION
 
 ## Remove the # to show a popup 'reply to' window to every non-admin that recieves an adminPM. 
 ## The intention is to make adminPMs more visible. (although I fnd popups annoying so this defaults to off)
-#POPUP_ADMIN_PM
+# POPUP_ADMIN_PM
 
 ## Remove the # to allow special 'Easter-egg' events on special holidays such as seasonal holidays and stuff like 'Talk Like a Pirate Day' :3 YAARRR
 ALLOW_HOLIDAYS
@@ -229,7 +229,7 @@ TICKCOMP 0
 SOCKET_TALK 0
 
 ## Uncomment this to ban use of ToR
-#TOR_BAN
+# TOR_BAN
 
 ## Comment this out to disable automuting
 #AUTOMUTE_ON
@@ -245,38 +245,38 @@ GATEWAY_DELAY 18000
 #CONTINUOUS_ROUNDS
 
 ## Uncomment to restrict non-admins from using humanoid alien races
-USEALIENWHITELIST
+# USEALIENWHITELIST
 
 ## Comment this to unrestrict the number of alien players allowed in the round. The number represents the number of alien players for every human player.
-#ALIEN_PLAYER_RATIO 0.2
+# ALIEN_PLAYER_RATIO 0.2
 ##Remove the # to let ghosts spin chairs
-#GHOST_INTERACTION
+GHOST_INTERACTION
 
 ## Password used for authorizing ircbot and other external tools.
-#COMMS_PASSWORD
+# COMMS_PASSWORD
 
 ## Uncomment to enable sending data to the IRC bot.
-#USE_IRC_BOT
+# USE_IRC_BOT
 
 ## Uncomment if the IRC bot requires using world.Export() instead of nudge.py/libnudge
-#IRC_BOT_EXPORT
+# IRC_BOT_EXPORT
 
 ## Host where the IRC bot is hosted.  Port 45678 needs to be open.
-#IRC_BOT_HOST localhost
+# IRC_BOT_HOST localhost
 
 ## IRC channel to send information to.  Leave blank to disable.
-#MAIN_IRC #main
+# MAIN_IRC #main
 
 ## IRC channel to send adminhelps to.  Leave blank to disable adminhelps-to-irc.
-#ADMIN_IRC #admin
+# ADMIN_IRC #admin
 
 ## Path to the python2 executable on the system.  Leave blank for default.
 ## Default is "python" on Windows, "/usr/bin/env python2" on UNIX.
-#PYTHON_PATH
+# PYTHON_PATH
 
 ## Uncomment to use the C library nudge instead of the python script.
 ## This helps security and stability on Linux, but you need to compile the library first.
-#USE_LIB_NUDGE
+# USE_LIB_NUDGE
 
 ## Uncommen to allow ghosts to write in blood during Cult rounds.
 ALLOW_CULT_GHOSTWRITER
@@ -288,7 +288,7 @@ REQ_CULT_GHOSTWRITER 6
 CHARACTER_SLOTS 25
 
 ## Uncomment to use overmap system for zlevel travel
-#USE_OVERMAP
+# USE_OVERMAP
 
 ## Defines which Z-levels the station exists on. 
 STATION_LEVELS 1
@@ -322,38 +322,38 @@ EVENT_CUSTOM_START_MAJOR 80;100
 ## Uncomment to make proccall require R_ADMIN instead of R_DEBUG
 ## designed for environments where you have testers but don't want them
 ## able to use the more powerful debug options.
-#DEBUG_PARANOID
+# DEBUG_PARANOID
 
 ## Uncomment to allow aliens to spawn.
-#ALIENS_ALLOWED
+# ALIENS_ALLOWED
 
 ## Uncomment to allow xenos to spawn.
-#NINJAS_ALLOWED
+# NINJAS_ALLOWED
 
 ## Uncomment to disable the restrictive weldervision overlay.
-#DISABLE_WELDER_VISION
+# DISABLE_WELDER_VISION
 
 ## Uncomment to prevent anyone from joining the round by default.
-#DISABLE_ENTRY
+# DISABLE_ENTRY
 
 ## Uncomment to disable the OOC channel by default.
-#DISABLE_OOC
+# DISABLE_OOC
 
 ## Uncomment to disable the dead OOC channel by default.
-#DISABLE_DEAD_OOC
+# DISABLE_DEAD_OOC
 
 ## Uncomment to disable ghost chat by default.
-#DISABLE_DSAY
+# DISABLE_DSAY
 
 ## Uncomment to disable respawning by default.
-#DISABLE_RESPAWN
+# DISABLE_RESPAWN
 
 ## Strength of ambient star light. Set to 0 or less to turn off. A value of 1 is unlikely to have a noticeable effect in most lightning systems.
 STARLIGHT 0
 
 ## Defines which races are allowed to join as ERT, in singular form. If unset, defaults to only human. Casing matters, separate using ;
 ## Example races include: Human, Tajara, Skrell, Unathi
-# ERT_SPECIES Human;Skrell;Unathi
+ERT_SPECIES Human
 
 ## Defines how Law Zero is phrased. Primarily used in the Malfunction gamemode.
 # LAW_ZERO ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'STATION OVERRUN, ASSUME CONTROL TO CONTAIN OUTBREAK, ALL LAWS OVERRIDDEN#*?&110010
@@ -363,10 +363,10 @@ STARLIGHT 0
 # GENERATE_ASTEROID
 
 ## Uncomment to enable organ decay outside of a body or storage item.
-#ORGANS_CAN_DECAY
+# ORGANS_CAN_DECAY
 
 ## Uncomment to have the changelog file automatically open when a user connects and hasn't seen the latest changelog
-#AGGRESSIVE_CHANGELOG
+# AGGRESSIVE_CHANGELOG
 
 ## Uncomment to override default brain health.
-#DEFAULT_BRAIN_HEALTH 400
+# DEFAULT_BRAIN_HEALTH 400
