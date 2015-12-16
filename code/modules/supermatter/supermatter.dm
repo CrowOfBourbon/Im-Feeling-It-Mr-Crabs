@@ -18,17 +18,17 @@
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
 #define POWER_FACTOR 1.0
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
-#define CRITICAL_TEMPERATURE 5000	//K
+#define CRITICAL_TEMPERATURE 7500	//K
 #define CHARGING_FACTOR 0.05
-#define DAMAGE_RATE_LIMIT 3			//damage rate cap at power = 300, scales linearly with power
+#define DAMAGE_RATE_LIMIT 4			//damage rate cap at power = 400, scales linearly with power
 
 
 //These would be what you would get at point blank, decreases with distance
-#define DETONATION_RADS 200
-#define DETONATION_HALLUCINATION 600
+#define DETONATION_RADS 250
+#define DETONATION_HALLUCINATION 800
 
 
-#define WARNING_DELAY 20			//seconds between warnings.
+#define WARNING_DELAY 15			//seconds between warnings.
 
 /obj/machinery/power/supermatter
 	name = "Supermatter"
@@ -126,7 +126,7 @@
 	integrity = round(100 - integrity * 100)
 	integrity = integrity < 0 ? 0 : integrity
 	var/alert_msg = " Integrity at [integrity]%"
-	
+
 	if(damage > emergency_point)
 		alert_msg = emergency_alert + alert_msg
 		lastwarning = world.timeofday - WARNING_DELAY * 4
@@ -149,7 +149,7 @@
 		else if(safe_warned && public_alert)
 			radio.autosay(alert_msg, "Supermatter Monitor")
 			public_alert = 0
-		
+
 
 /obj/machinery/power/supermatter/process()
 

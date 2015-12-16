@@ -1,3 +1,4 @@
+/*
 /datum/game_mode/wizard
 	name = "Wizard"
 	round_description = "There is a SPACE WIZARD on the station. You can't let the magician achieve their objectives!"
@@ -9,3 +10,4 @@
 	uplink_uses = 10
 	end_on_antag_death = 1
 	antag_tags = list(MODE_WIZARD)
+*/

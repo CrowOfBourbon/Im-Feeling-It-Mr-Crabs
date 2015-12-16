@@ -33,7 +33,9 @@
 					for(var/T in temp_tech)
 						files.UpdateTech(T, temp_tech[T])
 						user << "\The [loaded_item] had level [temp_tech[T]] in [T]."
-					loaded_item = null
+				else
+					user << "\The [loaded_item] was not reliable enough to advance research."
+				loaded_item = null
 				for(var/obj/I in contents)
 					for(var/mob/M in I.contents)
 						M.death()
@@ -80,6 +82,9 @@
 		else
 			user << "The [src] is already empty."
 
+/obj/item/borg/sight/material
+	name = "\proper material scanner vision"
+	sight_mode = BORGMATERIAL
 
 /obj/item/weapon/portable_destructive_analyzer/afterattack(var/atom/target, var/mob/living/user, proximity)
 	if(!target)

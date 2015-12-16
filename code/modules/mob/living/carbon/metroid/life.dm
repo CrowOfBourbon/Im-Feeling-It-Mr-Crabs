@@ -179,7 +179,7 @@
 		amount_grown++
 
 /mob/living/carbon/slime/proc/handle_targets()
-	if(attacked > 50) attacked = 50 // Let's not get into absurdly long periods of rage
+	if(attacked > 30) attacked = 30 // Let's not get into absurdly long periods of rage
 
 	if(attacked > 0)
 		attacked--
@@ -189,7 +189,7 @@
 		if(Discipline >= 5 && rabid)
 			if(prob(60)) rabid = 0
 
-		if(prob(10))
+		if(prob(7))
 			Discipline--
 
 	if(!canmove) return
@@ -535,8 +535,8 @@
 	else return 500
 
 /mob/living/carbon/slime/proc/get_starve_nutrition() // Below it we will eat before everything else
-	if (is_adult) return 300
-	else return 200
+	if (is_adult) return 200
+	else return 100
 
 /mob/living/carbon/slime/proc/will_hunt(var/hunger) // Check for being stopped from feeding and chasing
 	if (hunger == 2 || rabid || attacked) return 1

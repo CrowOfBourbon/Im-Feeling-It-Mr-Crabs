@@ -7,12 +7,12 @@
 	speak_emote = list("chirps")
 
 	layer = 5
-	maxHealth = 150
-	health = 150
+	maxHealth = 130
+	health = 130
 	gender = NEUTER
 
 	update_icon = 0
-	nutrition = 700
+	nutrition = 800
 
 	see_in_dark = 8
 	update_slimes = 0
@@ -265,7 +265,7 @@
 				visible_message("<span class='warning'> [M] manages to wrestle \the [name] off of [Victim]!</span>")
 				playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 
-				if(prob(80) && !client)
+				if(prob(90) && !client)
 					Discipline++
 
 					if(!is_adult)

@@ -1,4 +1,4 @@
-#define ORE_COUNT 1000
+#define ORE_COUNT 3600
 /*
 	This module is used to generate the debris fields/distribution maps/procedural stations.
 */
@@ -139,12 +139,10 @@ var/global/list/random_maps = list()
 		return
 	switch(map[current_cell])
 		if(1)
-			T.ChangeTurf(/turf/simulated/floor/plating/airless/asteroid)
-		if(2)
 			T.ChangeTurf(/turf/simulated/mineral)
-		if(3)
+		if(2)
 			T.ChangeTurf(/turf/simulated/mineral/random)
-		if(4)
+		if(3)
 			T.ChangeTurf(/turf/simulated/mineral/random/high_chance)
 
 /datum/random_map/proc/cleanup()
@@ -157,17 +155,7 @@ var/global/list/random_maps = list()
 		if(!(within_bounds(check_cell)) || map[check_cell] != 2)
 			continue
 		if(prob(25))
-			map[check_cell] = 4
+			map[check_cell] = 3
 		else
 			map[check_cell] = 3
 		ore_count--
-
-	sleep(-1)
-
-	// Place random asteroid rooms.
-	var/rooms_placed = 0
-	for(var/i = 0, i < max_secret_rooms, i++)
-		if(make_mining_asteroid_secret())
-			rooms_placed++
-	admin_notice("<span class='danger'>Placed [rooms_placed] secrets.</span>", R_DEBUG)
-	return 1

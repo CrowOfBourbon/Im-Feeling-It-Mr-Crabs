@@ -1,0 +1,12 @@
+<h1>Welcome to Space Station 13!</h1>
+<i>N.T.C Hallowstone<i>
+<i>This server is running a custom BayStation 12</a> build of SS13 code.</i>
+<br>
+<strong>Bugtracker:</strong> <a href="https://github.com/WkSavage/Im-Feeling-It-Mr-Crabs/issues/">for posting of bugs and issues.</a>
+<br>
+<strong>Forums:</strong> <a href="http://hollowstoness13.boards.net/">where we will be posting announcement!</a>
+<br>
+<i><a href="http://wiki.baystation12.net/">We use the Baystation 12 forums</a></i>
+<br>
+<strong>Welcome to our Medium-High Role Playing server! Please read our rules before you begin playing!<strong> 
+<br> 
